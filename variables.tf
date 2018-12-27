@@ -4,7 +4,7 @@ variable "name" {
 
 variable "instance_count" {
   description = "Number of instances to launch"
-  default     = 1
+  default = 1
 }
 
 variable "ami" {
@@ -13,27 +13,28 @@ variable "ami" {
 
 variable "placement_group" {
   description = "The Placement Group to start the instance in"
-  default     = ""
+  default = ""
 }
 
 variable "tenancy" {
   description = "The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host."
-  default     = "default"
+  default = "default"
 }
 
 variable "ebs_optimized" {
   description = "If true, the launched EC2 instance will be EBS-optimized"
-  default     = false
+  default = false
 }
 
 variable "disable_api_termination" {
   description = "If true, enables EC2 Instance Termination Protection"
-  default     = false
+  default = false
 }
 
 variable "instance_initiated_shutdown_behavior" {
-  description = "Shutdown behavior for the instance" # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior
-  default     = ""
+  description = "Shutdown behavior for the instance"
+  # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior
+  default = ""
 }
 
 variable "instance_type" {
@@ -42,17 +43,17 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "The key name to use for the instance"
-  default     = ""
+  default = ""
 }
 
 variable "monitoring" {
   description = "If true, the launched EC2 instance will have detailed monitoring enabled"
-  default     = false
+  default = false
 }
 
 variable "vpc_security_group_ids" {
   description = "A list of security group IDs to associate with"
-  type        = "list"
+  type = "list"
 }
 
 variable "subnet_id" {
@@ -61,70 +62,130 @@ variable "subnet_id" {
 
 variable "associate_public_ip_address" {
   description = "If true, the EC2 instance will have associated public IP address"
-  default     = false
+  default = false
 }
 
 variable "private_ip" {
   description = "Private IP address to associate with the instance in a VPC"
-  default     = ""
+  default = ""
 }
 
 variable "source_dest_check" {
   description = "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs."
-  default     = true
+  default = true
 }
 
 variable "user_data" {
   description = "The user data to provide when launching the instance"
-  default     = ""
+  default = ""
 }
 
 variable "iam_instance_profile" {
   description = "The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile."
-  default     = ""
+  default = ""
 }
 
 variable "ipv6_address_count" {
   description = "A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet."
-  default     = 0
+  default = 0
 }
 
 variable "ipv6_addresses" {
   description = "Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface"
-  default     = []
+  default = []
 }
 
 variable "tags" {
   description = "A mapping of tags to assign to the resource"
-  default     = {}
+  default = {}
 }
 
 variable "volume_tags" {
   description = "A mapping of tags to assign to the devices created by the instance at launch time"
-  default     = {}
+  default = {}
 }
 
 variable "root_block_device" {
   description = "Customize details about the root block device of the instance. See Block Devices below for details"
-  default     = []
+  default = []
 }
 
 variable "ebs_block_device" {
   description = "Additional EBS block devices to attach to the instance"
-  default     = []
+  default = []
 }
 
 variable "ephemeral_block_device" {
   description = "Customize Ephemeral (also known as Instance Store) volumes on the instance"
-  default     = []
+  default = []
 }
 
 variable "network_interface" {
   description = "Customize network interfaces to be attached at instance boot time"
-  default     = []
+  default = []
 }
 
 variable "cpu_credits" {
   description = "The credit option for CPU usage (unlimited or standard)"
-  default     = "standard"
+  default = "standard"
+}
+
+variable "chef_server_url" {
+  type = "string"
+  description = "Chef server endpoint"
+}
+
+variable "chef_user_name" {
+  type = "string"
+  description = "Chef server username"
+}
+
+variable "chef_user_key" {
+  type = "string"
+  description = "Chef server user key"
+}
+
+variable "chef_node_name" {
+  type = "string"
+  description = "This EC2 instance Chef server node name"
+  default = ""
+}
+
+variable "chef_attributes_json" {
+  type = "string"
+  description = "This EC2 instance attributes json"
+  default = ""
+}
+
+variable "chef_run_list" {
+  type = "list"
+  description = "This EC2 instance run list to pull from Chef server"
+  default = []
+}
+
+variable "chef_ssl_verify_mode" {
+  type = "string"
+  description = "Chef server ssl verification mode"
+  default = "false"
+}
+
+variable "chef_recreate_client" {
+  type = "string"
+  description = "Chef server client recreation mode"
+  default = false
+}
+
+variable "chef_connection_user" {
+  type = "string"
+  description = "This EC2 user with which to connect to Chef server"
+}
+
+variable "chef_connection_private_key" {
+  type = "string"
+  description = "This EC2 private key with which to connect to Chef server"
+}
+
+variable "chef_connection_agent" {
+  type = "string"
+  description = "Flag to forward ssh agent from user used for connecting to Chef server"
 }

@@ -1,5 +1,6 @@
 locals {
   is_t_instance_type = "${replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? "1" : "0"}"
+  chef_node_name = "${var.chef_node_name == "" ? var.name : var.chef_node_name}"
 }
 
 ######
@@ -41,6 +42,23 @@ resource "aws_instance" "this" {
     # (eg, https://github.com/terraform-providers/terraform-provider-aws/issues/2036)
     # we have to ignore changes in the following arguments
     ignore_changes = ["private_ip", "root_block_device", "ebs_block_device"]
+  }
+
+  provisioner "chef" {
+    server_url      = "${var.chef_server_url}"
+    user_name       = "${var.chef_user_name}"
+    user_key        = "${var.chef_user_key}"
+    node_name       = "${local.chef_node_name}"
+    attributes_json = "${var.chef_attributes_json}"
+    run_list        = "${var.chef_run_list}"
+    ssl_verify_mode = "${var.chef_ssl_verify_mode}"
+    recreate_client = "${var.chef_recreate_client}"
+  }
+
+  connection {
+    user        = "${var.chef_connection_user}"
+    private_key = "${var.chef_connection_private_key}"
+    agent       = "${var.chef_connection_agent}"
   }
 }
 
@@ -84,5 +102,22 @@ resource "aws_instance" "this_t2" {
     # (eg, https://github.com/terraform-providers/terraform-provider-aws/issues/2036)
     # we have to ignore changes in the following arguments
     ignore_changes = ["private_ip", "root_block_device", "ebs_block_device"]
+  }
+
+  provisioner "chef" {
+    server_url      = "${var.chef_server_url}"
+    user_name       = "${var.chef_user_name}"
+    user_key        = "${var.chef_user_key}"
+    node_name       = "${local.chef_node_name}"
+    attributes_json = "${var.chef_attributes_json}"
+    run_list        = "${var.chef_run_list}"
+    ssl_verify_mode = "${var.chef_ssl_verify_mode}"
+    recreate_client = "${var.chef_recreate_client}"
+  }
+
+  connection {
+    user        = "${var.chef_connection_user}"
+    private_key = "${var.chef_connection_private_key}"
+    agent       = "${var.chef_connection_agent}"
   }
 }
